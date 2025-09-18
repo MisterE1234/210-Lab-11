@@ -17,7 +17,7 @@ struct order{
     int* itemCount;
     double* itemPrice;
     double totalPrice;
-}
+};
 
 //Function prototypes
 void getOrder(order* ,int );
@@ -38,10 +38,8 @@ int main(){
 
 
     order *custOrder = nullptr;
-    custOrder = new order[];
-    custOrder->itemName = new string[size];
-    custOrder->itemCount = new int[size];
-    custOrder->itemPrice = new double[size];
+    custOrder = new order[orderAmount];
+    
 
 
     for (int i = 0; i < orderAmount; i++){ {
@@ -51,16 +49,23 @@ int main(){
         cin >> size;
         cin.ignore();
 
-        
+        custOrder[i].itemName = nullptr;
+        custOrder[i].itemName = new string[size];
+        custOrder[i].itemCount = nullptr;
+        custOrder[i].itemCount = new int[size];
+        custOrder[i].itemPrice = nullptr;
+        custOrder[i].itemPrice = new double[size];
 
         getOrder(custOrder[i], size);
         calculateTotal(custOrder[i], size);
         displayOrder(custOrder[], size, orderAmount);
     }    
 
-    delete[] custOrder->itemName;
-    delete[] custOrder->itemCount;
-    delete[] custOrder->itemPrice;
+    for (int i = 0; i < orderAmount; i++){
+        delete[] custOrder[i]->itemName;
+        delete[] custOrder[i]->itemCount;
+        delete[] custOrder[i]->itemPrice;
+    }
     delete custOrder;
     
 
