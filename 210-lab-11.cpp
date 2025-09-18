@@ -36,19 +36,20 @@ int main(){
     cin >> orderAmount;
     cin.ignore();
 
-
+    //Dynamically allocate an array of structures of type order based on the number of items the user wants to order.
     order *custOrder = nullptr;
     custOrder = new order[orderAmount];
     
 
-
-    for (int i = 0; i < orderAmount; i++){ {
+    //Use a loop to call the getOrder(), calculateTotal(), and displayOrder() functions for each order.
+    for (int i = 0; i < orderAmount; i++){ 
        
-    
+        //Prompt the user to enter the number of items they would like to order.
         cout << "Enter the number of items you would like to order: ";
         cin >> custOrder[i].itemSize;
         cin.ignore();
 
+        //Dynamically allocate the arrays for item names, counts, and prices based on the number of items the user wants to order.
         custOrder[i].itemName = nullptr;
         custOrder[i].itemName = new string[custOrder[i].itemSize];
         custOrder[i].itemCount = nullptr;
@@ -56,6 +57,8 @@ int main(){
         custOrder[i].itemPrice = nullptr;
         custOrder[i].itemPrice = new double[custOrder[i].itemSize];
 
+        //Call the getOrder(), calculateTotal(), and displayOrder() functions for each order.
+        
         getOrder(custOrder, i);
         calculateTotal(custOrder,i);
         displayOrder(custOrder, orderAmount);
@@ -72,7 +75,10 @@ int main(){
     return 0;
 }
 
-void getOrder(order* custOrder, int orderPlace){
+//getOrder() is meant to gather user input for a specific order.
+//Arguments: a structure of type order and an integer representing the order's position in the array.
+//Returns: nothing.
+void getOrder(order custOrder, int orderPlace){
     //Prompt the user to enter the customer name.
     cout << "Enter customer name: ";
     getline(cin, custOrder[orderPlace].customerName);
@@ -89,6 +95,9 @@ void getOrder(order* custOrder, int orderPlace){
     }
 }
 
+//calculateTotal() is meant to calculate the total price of a specific order.
+//Arguments: a structure of type order and an integer representing the order's position in the array
+//Returns: nothing.
 void calculateTotal(order* custOrder, int orderPlace){
     //Use a loop to calculate the total price of the order by multiplying each item's count by its price and summing the results.
     custOrder[orderPlace].totalPrice = 0;
@@ -97,9 +106,14 @@ void calculateTotal(order* custOrder, int orderPlace){
     }
 }
 
-void displayOrder(order* custOrder, int orderAmount){
-    //Display the customer name.
+//displayOrder() is meant to display the details of all orders added so far.
+//Arguments: a structure of type order and an integer representing the order's position in the array
+//Returns: nothing.
+void displayOrder(order custOrder, int orderAmount){
+    
+    //Use a loop to display the details of each order.
     for (int x = 0; x < orderAmount; x++){
+        //Display the customer name.
         cout << "Order " << x + 1 << ":" << endl;
         
     
@@ -108,11 +122,12 @@ void displayOrder(order* custOrder, int orderAmount){
     //Use a loop to display each item's name, count, and price.
     for (int i = 0; i < custOrder[x].itemSize; i++){
         cout << "Item Name: " << custOrder[x].itemName[i] << endl;
-        cout << "Item Count: " << custOrder[x].itemCount[i] << endl;
-        cout << "Item Price: $" << custOrder[x].itemPrice[i] << endl;
+        cout << "Price per: $" << custOrder[x].itemPrice[i] << ", ";
+        cout << "Count: " << custOrder[x].itemCount[i] << endl;
+        
     }
 
     //Display the total price of the order.
-    cout << "Total Price: $" << custOrder.totalPrice << endl;
+    cout << "Total Price: $" << custOrder[x].totalPrice << "\n" << endl;
     }
 }
