@@ -4,6 +4,12 @@
 #include <iostream>
 using namespace std;
 
+//Define a structure named order that contains the following members in order to create a customer order:
+//A string to hold the customer name.
+//A dynamic array of strings to hold the item names.
+//A dynamic array of integers to hold the item counts.
+//A dynamic array of doubles to hold the item prices.
+//A double to hold the total price of the order.
 struct order{
    
     string customerName;
@@ -13,42 +19,51 @@ struct order{
     double totalPrice;
 }
 
+//Function prototypes
+void getOrder(order* custOrder, int size);
+void calculateTotal(order *custOrder, int size);
+void displayOrder(order *custOrder, int size);
 
 int main(){
+    //Prompt the user to enter the number of items they would like to order.
+    int size;
+    bool anotherOrder = true;
+    char response;
+    while (anotherOrder) {
+        cout << "Would you like to place an order? (y/n): ";
+        cin >> response;
+        cin.ignore();
+        if (response == 'y' || response == 'Y') {
+            anotherOrder = true;
+        } else if (response == 'n' || response == 'N') {
+            anotherOrder = false;
+            cout << "Thank you for using the order system. Goodbye!" << endl;
+            return 0;
+        } else {
+            cout << "Invalid input. Please enter 'y' or 'n'." << endl;
+            continue;
+        }
     
-    int numItems;
-    order customerOrder;
+    cout << "Enter the number of items you would like to order: ";
+    cin >> size;
+    cin.ignore();
 
-    cout << "Enter customer name: ";
-    getline(cin, customerOrder.customerName);
+    order *custOrder = nullptr;
+    custOrder = new order[];
+    custOrder->itemName = new string[size];
+    custOrder->itemCount = new int[size];
+    custOrder->itemPrice = new double[size];
 
-    cout << "Enter number of items: ";
-    cin >> numItems;
+    getOrder(custOrder, size);
+    calculateTotal(custOrder, size);
+    displayOrder(custOrder, size);
 
-    customerOrder.itemName = new string[numItems];
-    customerOrder.itemCount = new int[numItems];
-    customerOrder.itemPrice = new double[numItems];
-
-    for(int i = 0; i < numItems; i++){
-        cout << "Enter item name: ";
-        cin >> customerOrder.itemName[i];
-        cout << "Enter item count: ";
-        cin >> customerOrder.itemCount[i];
-        cout << "Enter item price: ";
-        cin >> customerOrder.itemPrice[i];
+    delete[] custOrder->itemName;
+    delete[] custOrder->itemCount;
+    delete[] custOrder->itemPrice;
+    delete custOrder;
     }
-
-    customerOrder.totalPrice = 0;
-    for(int i = 0; i < numItems; i++){
-        customerOrder.totalPrice += customerOrder.itemCount[i] * customerOrder.itemPrice[i];
-    }
-
-    cout << "\nCustomer Name: " << customerOrder.customerName << endl;
-    cout << "Total Price: $" << customerOrder.totalPrice << endl;
-
-    delete[] customerOrder.itemName;
-    delete[] customerOrder.itemCount;
-    delete[] customerOrder.itemPrice;
 
     return 0;
 }
+
