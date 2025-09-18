@@ -22,8 +22,8 @@ struct order{
 
 //Function prototypes
 void getOrder(order* ,int);
-void calculateTotal(order *,int);
-void displayOrder(order *,int);
+void calculateTotal(order*,int);
+void displayOrder(order*,int);
 
 int main(){
     //Prompt the user to enter the number of items they would like to order.
@@ -78,8 +78,10 @@ int main(){
 //getOrder() is meant to gather user input for a specific order.
 //Arguments: a structure of type order and an integer representing the order's position in the array.
 //Returns: nothing.
-void getOrder(order custOrder, int orderPlace){
+void getOrder(order* custOrder, int orderPlace){
     //Prompt the user to enter the customer name.
+    cin.clear();
+    cin.ignore(1000, '\n');
     cout << "Enter customer name: ";
     getline(cin, custOrder[orderPlace].customerName);
 
@@ -109,7 +111,7 @@ void calculateTotal(order* custOrder, int orderPlace){
 //displayOrder() is meant to display the details of all orders added so far.
 //Arguments: a structure of type order and an integer representing the order's position in the array
 //Returns: nothing.
-void displayOrder(order custOrder, int orderAmount){
+void displayOrder(order* custOrder, int orderAmount){
     
     //Use a loop to display the details of each order.
     for (int x = 0; x < orderAmount; x++){
