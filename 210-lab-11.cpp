@@ -80,6 +80,7 @@ int main(){
 //Returns: nothing.
 void getOrder(order* custOrder, int orderPlace){
     //Prompt the user to enter the customer name.
+    bool validInput = false;
     cin.clear();
     cin.ignore(1000, '\n');
     cout << "Enter customer name: ";
@@ -89,10 +90,37 @@ void getOrder(order* custOrder, int orderPlace){
     for (int i = 0; i < custOrder[orderPlace].itemSize; i++){
         cout << "Enter item name: ";
         getline(cin, custOrder[orderPlace].itemName[i]);
-        cout << "Enter item count: ";
-        cin >> custOrder[orderPlace].itemCount[i];
-        cout << "Enter item price: ";
-        cin >> custOrder[orderPlace].itemPrice[i];
+
+        //Check for valid input for item count
+        while (validInput == false){
+            cout << "Enter item count: ";
+            cin >> custOrder[orderPlace].itemCount[i];
+            if (cin.fail() || custOrder[orderPlace].itemCount[i] < 0){
+                cin.clear();
+                cin.ignore(1000, '\n');
+                cout << "Invalid input. Please enter a non-negative integer." << endl;
+            }
+            else{
+                validInput = true;
+            }
+        }
+
+        //Reset validInput for the next input
+        validInput = false;
+        //Check for valid input for item price
+        while(validInput == false){
+            cout << "Enter item price: ";
+            cin >> custOrder[orderPlace].itemPrice[i];
+            if (cin.fail() || custOrder[orderPlace].itemPrice[i] < 0){
+                cin.clear();
+                cin.ignore(1000, '\n');
+                cout << "Invalid input. Please enter a non-negative number." << endl;
+            }
+            else{
+                validInput = true;
+            }
+        }
+        
         cin.ignore();
     }
 }
