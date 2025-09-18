@@ -13,6 +13,7 @@ using namespace std;
 struct order{
    
     string customerName;
+    int itemSize;
     string* itemName;
     int* itemCount;
     double* itemPrice;
@@ -20,13 +21,12 @@ struct order{
 };
 
 //Function prototypes
-void getOrder(order* ,int, int );
-void calculateTotal(order *,int, int );
-void displayOrder(order *,int ,int);
+void getOrder(order* ,int);
+void calculateTotal(order *,int);
+void displayOrder(order *,int);
 
 int main(){
     //Prompt the user to enter the number of items they would like to order.
-    int size;
     int orderAmount;
     bool validInput = false;
     char response;
@@ -46,19 +46,19 @@ int main(){
        
     
         cout << "Enter the number of items you would like to order: ";
-        cin >> size;
+        cin >> custOrder[i].itemSize;
         cin.ignore();
 
         custOrder[i].itemName = nullptr;
-        custOrder[i].itemName = new string[size];
+        custOrder[i].itemName = new string[custOrder[i].itemSize];
         custOrder[i].itemCount = nullptr;
-        custOrder[i].itemCount = new int[size];
+        custOrder[i].itemCount = new int[custOrder[i].itemSize];
         custOrder[i].itemPrice = nullptr;
-        custOrder[i].itemPrice = new double[size];
+        custOrder[i].itemPrice = new double[custOrder[i].itemSize];
 
-        getOrder(custOrder, size,i);
-        calculateTotal(custOrder, size, i);
-        displayOrder(custOrder, size, orderAmount);
+        getOrder(custOrder, i);
+        calculateTotal(custOrder,i);
+        displayOrder(custOrder, orderAmount);
     }    
 
     for (int i = 0; i < orderAmount; i++){
@@ -72,13 +72,13 @@ int main(){
     return 0;
 }
 
-void getOrder(order* custOrder, int size, int orderPlace){
+void getOrder(order* custOrder, int orderPlace){
     //Prompt the user to enter the customer name.
     cout << "Enter customer name: ";
     getline(cin, custOrder[orderPlace].customerName);
 
     //Use a loop to prompt the user to enter the item names, counts, and prices for each item.
-    for (int i = 0; i < size; i++){
+    for (int i = 0; i < custOrder[orderPlace].itemSize; i++){
         cout << "Enter item name: ";
         getline(cin, custOrder[orderPlace].itemName[i]);
         cout << "Enter item count: ";
@@ -89,25 +89,30 @@ void getOrder(order* custOrder, int size, int orderPlace){
     }
 }
 
-void calculateTotal(order* custOrder, int size, int orderPlace){
+void calculateTotal(order* custOrder, int orderPlace){
     //Use a loop to calculate the total price of the order by multiplying each item's count by its price and summing the results.
     custOrder[orderPlace].totalPrice = 0;
-    for (int i = 0; i < size; i++){
+    for (int i = 0; i < custOrder[orderPlace].itemSize; i++){
         custOrder[orderPlace].totalPrice += custOrder[orderPlace].itemCount[i] * custOrder[orderPlace].itemPrice[i];
     }
 }
 
-void displayOrder(order* custOrder, int size, int orderAmount){
+void displayOrder(order* custOrder, int orderAmount){
     //Display the customer name.
-    cout << "Customer Name: " << custOrder.customerName << endl;
+    for (int x = 0; x < orderAmount; x++){
+        cout << "Order " << x + 1 << ":" << endl;
+        
+    
+    cout << "Customer Name: " << custOrder[x].customerName << endl;
 
     //Use a loop to display each item's name, count, and price.
-    for (int i = 0; i < size; i++){
-        cout << "Item Name: " << custOrder.itemName[i] << endl;
-        cout << "Item Count: " << custOrder.itemCount[i] << endl;
-        cout << "Item Price: $" << custOrder.itemPrice[i] << endl;
+    for (int i = 0; i < custOrder[x].itemSize; i++){
+        cout << "Item Name: " << custOrder[x].itemName[i] << endl;
+        cout << "Item Count: " << custOrder[x].itemCount[i] << endl;
+        cout << "Item Price: $" << custOrder[x].itemPrice[i] << endl;
     }
 
     //Display the total price of the order.
     cout << "Total Price: $" << custOrder.totalPrice << endl;
+    }
 }
